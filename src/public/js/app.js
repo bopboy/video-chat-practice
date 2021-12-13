@@ -20,3 +20,13 @@ form.addEventListener("submit", (event) => {
     socket.emit("enter_room", roomName, showRoom)
     input.value = ""
 })
+
+const addMessage = (msg) => {
+    const ul = room.querySelector("ul")
+    const li = document.createElement("li")
+    li.innerText = msg
+    ul.appendChild(li)
+}
+socket.on("welcome", () => {
+    addMessage("Someone Joined")
+})
