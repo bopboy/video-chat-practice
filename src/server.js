@@ -20,28 +20,9 @@ httpServer.listen(3000, () => {
 
 const sockets = []
 wsServer.on('connection', (socket) => {
+    socket.onAny(event => console.log(`socket event: ${event}`))
     socket.on("enter_room", (roomName, done) => {
-        console.log(roomName)
-        setTimeout(() => { done("hello from the backend") }, 5000)
+        socket.join(roomName)
+        done()
     })
 })
-/* 웹소켓 사용 버전
-const wss = new WebSocket.Server({ server })
-wss.on('connection', (socket) => {
-    sockets.push(socket)
-    socket["nickname"] = "anonymous"
-    console.log("Connected to Browser ✅")
-    socket.on("close", () => { console.log("Disconnected from the Browser ❌") })
-    socket.on("message", msg => {
-        const message = JSON.parse(msg.toString())
-        switch (message.type) {
-            case "new_message":
-                sockets.forEach((aSocket) => aSocket.send(`${socket.nickname}: ${message.payload}`))
-                break
-            case "nickname":
-                socket['nickname'] = message.payload
-                break
-        }
-    })
-})
-*/
