@@ -20,9 +20,9 @@ httpServer.listen(3000, () => {
 
 const sockets = []
 wsServer.on('connection', (socket) => {
-    socket.on("enter_room", (msg, done) => {
-        console.log(msg)
-        setTimeout(() => { done() }, 5000)
+    socket.on("enter_room", (roomName, done) => {
+        console.log(roomName)
+        setTimeout(() => { done("hello from the backend") }, 5000)
     })
 })
 /* 웹소켓 사용 버전
