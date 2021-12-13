@@ -17,9 +17,13 @@ server.listen(3000, () => {
     console.log(`Listening on http://localhost:3000`)
 })
 
+const sockets = []
 wss.on('connection', (socket) => {
+    sockets.push(socket)
     console.log("Connected to Browser ✅")
     socket.on("close", () => { console.log("Disconnected from the Browser ❌") })
-    socket.on("message", (message) => { console.log(message) })
-    socket.send("hello!!!")
+    socket.on("message", message => {
+        // socket.send(message.toString())
+        sockets.forEach((aSocket) => aSocket.send(message.toString()))
+    })
 })
