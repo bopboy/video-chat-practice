@@ -20,7 +20,10 @@ httpServer.listen(3000, () => {
 
 const sockets = []
 wsServer.on('connection', (socket) => {
-    console.log(socket)
+    socket.on("enter_room", (msg, done) => {
+        console.log(msg)
+        setTimeout(() => { done() }, 5000)
+    })
 })
 /* 웹소켓 사용 버전
 const wss = new WebSocket.Server({ server })
