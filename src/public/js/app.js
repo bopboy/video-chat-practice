@@ -28,4 +28,5 @@ nickForm.addEventListener("submit", (event) => {
     event.preventDefault()
     const input = nickForm.querySelector("input")
     socket.send(makeMessage("nickname", input.value))
+    // input.value = '' // 이건 안하는 것이 나은 거 같다.
 })
