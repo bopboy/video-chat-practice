@@ -1,6 +1,7 @@
 import express from 'express'
 import http from 'http'
-import WebSocket from 'ws'
+// import WebSocket from 'ws'
+import SocketIO from 'socket.io'
 
 const app = express()
 
@@ -10,14 +11,19 @@ app.use("/public", express.static(__dirname + "/public"))
 app.get("/", (req, res) => res.render("home"))
 app.get("/*", (req, res) => res.redirect("/"))
 
-const server = http.createServer(app)
-const wss = new WebSocket.Server({ server })
+const httpServer = http.createServer(app)
+const wsServer = SocketIO(httpServer)
 
-server.listen(3000, () => {
+httpServer.listen(3000, () => {
     console.log(`Listening on http://localhost:3000`)
 })
 
 const sockets = []
+wsServer.on('connection', (socket) => {
+    console.log(socket)
+})
+/* 웹소켓 사용 버전
+const wss = new WebSocket.Server({ server })
 wss.on('connection', (socket) => {
     sockets.push(socket)
     socket["nickname"] = "anonymous"
@@ -35,3 +41,4 @@ wss.on('connection', (socket) => {
         }
     })
 })
+*/
