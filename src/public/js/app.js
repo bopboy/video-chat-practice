@@ -50,3 +50,16 @@ socket.on("welcome", (user) => {
 })
 socket.on("new_message", addMessage)
 socket.on("bye", (user) => { addMessage(`${user} left 🙁`) })
+socket.on("room_change", (rooms) => {
+    const roomList = welcome.querySelector("ul")
+    roomList.innerHTML = ""
+    if (rooms.length === 0) {
+        roomList.innerHTML = ""
+        return
+    }
+    rooms.forEach((room) => {
+        const li = document.createElement("li")
+        li.innerText = room
+        roomList.append(li)
+    })
+})
