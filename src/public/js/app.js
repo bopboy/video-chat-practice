@@ -45,11 +45,17 @@ const addMessage = (msg) => {
     ul.appendChild(li)
 }
 
-socket.on("welcome", (user) => {
+socket.on("welcome", (user, count) => {
+    const h3 = room.querySelector("h3")
+    h3.innerText = `Room ${roomName}  (${count})`
     addMessage(`${user} Joined 😀`)
 })
 socket.on("new_message", addMessage)
-socket.on("bye", (user) => { addMessage(`${user} left 🙁`) })
+socket.on("bye", (user, count) => {
+    const h3 = room.querySelector("h3")
+    h3.innerText = `Room ${roomName}  (${count})`
+    addMessage(`${user} left 🙁`)
+})
 socket.on("room_change", (rooms) => {
     const roomList = welcome.querySelector("ul")
     roomList.innerHTML = ""
