@@ -16,3 +16,7 @@ const wss = new WebSocket.Server({ server })
 server.listen(3000, () => {
     console.log(`Listening on http://localhost:3000`)
 })
+
+wss.on('connection', (socket) => {
+    console.log(socket)
+})
