@@ -18,5 +18,8 @@ server.listen(3000, () => {
 })
 
 wss.on('connection', (socket) => {
-    console.log(socket)
+    console.log("Connected to Browser ✅")
+    socket.on("close", () => { console.log("Disconnected from the Browser ❌") })
+    socket.on("message", (message) => { console.log(message) })
+    socket.send("hello!!!")
 })
