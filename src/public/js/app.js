@@ -4,10 +4,13 @@ const myFace = document.querySelector("#myFace")
 const muteBtn = document.querySelector("#mute")
 const cameraBtn = document.querySelector("#camera")
 const cameraSelect = document.querySelector("#cameras")
+const call = document.querySelector("#call")
+call.hidden = true
 
 let myStream
 let muted = false
 let cameraoff = false
+let roomName
 
 const getCameras = async () => {
     try {
@@ -39,8 +42,9 @@ const getMedia = async (deviceId) => {
         console.log(e)
     }
 }
-getMedia()
+// getMedia()
 
+// video call
 const handleMuteClick = () => {
     myStream.getAudioTracks().forEach(track => track.enabled = !track.enabled)
     if (!muted) {
@@ -67,3 +71,24 @@ const handleCameraChange = async () => {
     await getMedia(cameraSelect.value)
 }
 cameraSelect.addEventListener("input", handleCameraChange)
+
+// Join a room
+const welcome = document.querySelector("#welcome")
+const welcomeForm = welcome.querySelector("form")
+const handleWelcomeSubmit = (event) => {
+    event.preventDefault()
+    const input = welcomeForm.querySelector("input")
+    socket.emit("join_room", input.value, startMedia)
+    roomName = input.value
+    input.value = ""
+}
+const startMedia = () => {
+    welcome.hidden = true
+    call.hidden = false
+    getMedia()
+}
+welcome.addEventListener("submit", handleWelcomeSubmit)
+
+socket.on("welcome", () => {
+    console.log("someone joined")
+})
